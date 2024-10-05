@@ -10,7 +10,8 @@
             padding: 0;
             height: 100%;
             font-family: Arial, sans-serif;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Keep this to prevent horizontal scroll */
+            overflow-y: auto; /* Enable vertical scrolling */
         }
 
         .video-container {
@@ -41,7 +42,7 @@
             position: relative;
             z-index: 1;
             text-align: center;
-            min-height: 100vh;
+            min-height: 100vh; /* Keep this to ensure enough height for scrolling */
         }
 
         h1 {
@@ -75,10 +76,9 @@
 </head>
 <body>
     <video autoplay muted loop>
-    <source src="webvid,mp4" type="video/mp4">
-    Your browser does not support the video tag.
-</video>
-
+        <source src="webvid.mp4" type="video/mp4"> <!-- Corrected filename from webvid,mp4 to webvid.mp4 -->
+        Your browser does not support the video tag.
+    </video>
 
     <div class="content">
         <img src="img2.png" style="width: 60%; margin: 50px auto 30px auto; display: block;">
@@ -99,17 +99,15 @@
         <hr>
         <h2>INSTALLING CODING ENVIRONMENT</h2>
         <hr>
-
         <p>So first let's install a very famous coding IDE with built-in COMPILER, namely VISUAL STUDIO CODE.</p>
         <p>It is not compulsory to use the same...</p>
         <p>You can use many like "PYCHARM", "REPLIT", "ATOM", etc...</p>
         <p>Let's start to install "VS CODE"...</p>
         <p>First go to - <a href="https://code.visualstudio.com/download" target="_blank" style="color: white;">https://code.visualstudio.com/download</a></p>
         <p>Then download the latest version of VS CODE for your operating systems.</p>
-<hr>
+        <hr>
         <h2>Getting Started with Python</h2>
-<hr>
-
+        <hr>
         <p>Now that your environment is set up, let's write our first Python code!</p>
         <div class="code-block">
             <code>
@@ -118,7 +116,7 @@
             </code>
         </div>
         <p>Try running this code in your Python IDE to see the output. It should display: <strong>Hello, World!</strong></p>
-<hr>
+        <hr>
         <h2>Lesson 1: Variables and Data Types</h2>
         <hr>
         <p>In Python, variables are used to store data. Let's explore how to create variables and use different data types.</p>
@@ -137,8 +135,7 @@
             - <strong>Boolean</strong>: is_student<br>
             - <strong>Float</strong>: height<br>
         </p>
-
-<hr>
+        <hr>
         <h2>Lesson 2: Conditional Statements</h2>
         <hr>
         <p>Conditional statements allow us to control the flow of the program based on conditions.</p>
@@ -151,11 +148,11 @@
             &emsp;print("You are not eligible to vote.")<br>
             </code>
         </div>
-<hr>
+        <hr>
         <h2>Interactive Coding</h2>
         <hr>
         <p>If you'd like to practice coding online, visit this Python compiler: <a href="https://replit.com/~" target="_blank" style="color: white;">REPLIT</a> to run and modify your code in real-time!</p>
-<hr>
+        <hr>
         <h2>Further Learning Resources</h2>
         <hr>
         <p>Here are some additional resources to help you continue learning Python:</p>
@@ -166,49 +163,49 @@
         </ul>
     </div>
     <!-- Scroll to Top Button -->
-<button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
+    <button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
 
-<script>
-// Scroll to top function
-function scrollToTop() {
-    window.scrollTo({top: 0, behavior: 'smooth'});
-}
+    <script>
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
 
-// Show the button when the user scrolls down
-window.onscroll = function() {scrollFunction()};
+        // Show the button when the user scrolls down
+        window.onscroll = function() {scrollFunction()};
 
-function scrollFunction() {
-    let scrollBtn = document.getElementById("scrollBtn");
-    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        scrollBtn.style.display = "block";
-    } else {
-        scrollBtn.style.display = "none";
-    }
-}
-</script>
+        function scrollFunction() {
+            let scrollBtn = document.getElementById("scrollBtn");
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        }
+    </script>
 
-<style>
-/* Scroll to top button styling */
-#scrollBtn {
-    display: none; /* Hidden by default */
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 99;
-    font-size: 18px;
-    border: none;
-    outline: none;
-    background-color: #333;
-    color: white;
-    cursor: pointer;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
+    <style>
+        /* Scroll to top button styling */
+        #scrollBtn {
+            display: none; /* Hidden by default */
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
 
-#scrollBtn:hover {
-    background-color: #555;
-}
-</style>
+        #scrollBtn:hover {
+            background-color: #555;
+        }
+    </style>
 
 </body>
 </html>
