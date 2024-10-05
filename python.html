@@ -10,8 +10,7 @@
             padding: 0;
             height: 100%;
             font-family: Arial, sans-serif;
-            overflow-x: hidden; /* Keep this to prevent horizontal scroll */
-            overflow-y: auto; /* Enable vertical scrolling */
+            overflow: hidden; /* Prevent body from scrolling */
         }
 
         .video-container {
@@ -42,7 +41,8 @@
             position: relative;
             z-index: 1;
             text-align: center;
-            min-height: 100vh; /* Keep this to ensure enough height for scrolling */
+            height: 100vh; /* Use full viewport height */
+            overflow-y: auto; /* Enable vertical scrolling */
         }
 
         h1 {
@@ -75,10 +75,12 @@
     </style>
 </head>
 <body>
-    <video autoplay muted loop>
-        <source src="webvid.mp4" type="video/mp4"> <!-- Corrected filename from webvid,mp4 to webvid.mp4 -->
-        Your browser does not support the video tag.
-    </video>
+    <div class="video-container">
+        <video autoplay muted loop id="video-bg">
+            <source src="webvid.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
 
     <div class="content">
         <img src="img2.png" style="width: 60%; margin: 50px auto 30px auto; display: block;">
@@ -99,6 +101,7 @@
         <hr>
         <h2>INSTALLING CODING ENVIRONMENT</h2>
         <hr>
+
         <p>So first let's install a very famous coding IDE with built-in COMPILER, namely VISUAL STUDIO CODE.</p>
         <p>It is not compulsory to use the same...</p>
         <p>You can use many like "PYCHARM", "REPLIT", "ATOM", etc...</p>
@@ -108,6 +111,7 @@
         <hr>
         <h2>Getting Started with Python</h2>
         <hr>
+
         <p>Now that your environment is set up, let's write our first Python code!</p>
         <div class="code-block">
             <code>
@@ -135,6 +139,7 @@
             - <strong>Boolean</strong>: is_student<br>
             - <strong>Float</strong>: height<br>
         </p>
+
         <hr>
         <h2>Lesson 2: Conditional Statements</h2>
         <hr>
@@ -166,45 +171,45 @@
     <button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
 
     <script>
-        // Scroll to top function
-        function scrollToTop() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
+    // Scroll to top function
+    function scrollToTop() {
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
 
-        // Show the button when the user scrolls down
-        window.onscroll = function() {scrollFunction()};
+    // Show the button when the user scrolls down
+    window.onscroll = function() {scrollFunction()};
 
-        function scrollFunction() {
-            let scrollBtn = document.getElementById("scrollBtn");
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                scrollBtn.style.display = "block";
-            } else {
-                scrollBtn.style.display = "none";
-            }
+    function scrollFunction() {
+        let scrollBtn = document.getElementById("scrollBtn");
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            scrollBtn.style.display = "block";
+        } else {
+            scrollBtn.style.display = "none";
         }
+    }
     </script>
 
     <style>
-        /* Scroll to top button styling */
-        #scrollBtn {
-            display: none; /* Hidden by default */
-            position: fixed;
-            bottom: 20px;
-            right: 30px;
-            z-index: 99;
-            font-size: 18px;
-            border: none;
-            outline: none;
-            background-color: #333;
-            color: white;
-            cursor: pointer;
-            padding: 10px 15px;
-            border-radius: 5px;
-        }
+    /* Scroll to top button styling */
+    #scrollBtn {
+        display: none; /* Hidden by default */
+        position: fixed;
+        bottom: 20px;
+        right: 30px;
+        z-index: 99;
+        font-size: 18px;
+        border: none;
+        outline: none;
+        background-color: #333;
+        color: white;
+        cursor: pointer;
+        padding: 10px 15px;
+        border-radius: 5px;
+    }
 
-        #scrollBtn:hover {
-            background-color: #555;
-        }
+    #scrollBtn:hover {
+        background-color: #555;
+    }
     </style>
 
 </body>
