@@ -58,9 +58,14 @@
             font-size: 16px;
         }
 
+        .feedback-form input[type="email"],
         .feedback-form input[type="submit"] {
             padding: 10px 20px;
             font-size: 18px;
+            margin-top: 10px;
+        }
+
+        .feedback-form input[type="submit"] {
             background-color: #333;
             color: white;
             border: none;
@@ -107,9 +112,9 @@
         <!-- Feedback Form -->
         <div class="feedback-form">
             <h2>Send Us Your Feedback</h2>
-            <form action="https://formspree.io/f/{your_form_id}" method="POST">
-                <textarea name="message" placeholder="Type your feedback here..."></textarea><br><br>
-                <input type="email" name="email" placeholder="Your email" required><br><br>
+            <form action="mailto:polisohankumarreddy@gmail.com" method="POST" enctype="text/plain">
+                <textarea name="message" id="message" placeholder="Type your feedback here..."></textarea><br><br>
+                <input type="email" name="user_email" id="user_email" placeholder="Your email" required><br><br>
                 <input type="submit" value="Send Feedback">
             </form>
         </div>
