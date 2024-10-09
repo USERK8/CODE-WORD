@@ -1,133 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ABOUT US</title>
-<style>
-body {
-margin: 0;
-padding: 0;
-background: url('bgimg1.jpeg') center/cover fixed no-repeat;
-height: 100vh;
-overflow-y: auto;
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ABOUT US</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('bgimg1.jpeg') center/cover fixed no-repeat;
+            height: 100vh;
+            overflow-y: auto;
+        }
 
-.content {
-padding: 20px;
-color: white;
-}
+        .content {
+            padding: 20px;
+            color: white;
+        }
 
-h1, h2, p {
-text-align: center;
-}
+        h1, h2, p {
+            text-align: center;
+        }
 
-h1 {
-font-size: 50px;
-}
+        h1 {
+            font-size: 50px;
+        }
 
-h2 {
-font-size: 30px;
-}
+        p {
+            font-size: 20px;
+            line-height: 30px;
+            margin: 50px 0;
+        }
 
-p {
-font-size: 20px;
-line-height: 30px;
-margin: 50px 0;
-}
+        .home-button {
+            text-align: center;
+            margin-top: 50px;
+        }
 
-.home-button {
-display: block;
-text-align: center;
-margin-top: 50px;
-}
+        .home-button a {
+            padding: 20px 30px;
+            font-size: 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
 
-.home-button a {
-padding: 20px 30px;
-font-size: 20px;
-background-color: #333;
-color: white;
-text-decoration: none;
-border-radius: 5px;
-}
+        .feedback-form {
+            text-align: center;
+            margin-top: 50px;
+        }
 
-.language-buttons {
-text-align: center;
-margin-top: 50px;
-}
+        .feedback-form textarea {
+            width: 60%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+        }
 
-.language-buttons a {
-margin: 0 10px;
-padding: 10px 20px;
-font-size: 18px;
-background-color: #333;
-color: white;
-text-decoration: none;
-border-radius: 5px;
-}
-</style>
+        .feedback-form input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .feedback-form input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        /* Scroll to top button styling */
+        #scrollBtn {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 30px;
+            z-index: 99;
+            font-size: 18px;
+            border: none;
+            outline: none;
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        #scrollBtn:hover {
+            background-color: #555;
+        }
+    </style>
 </head>
 <body>
-<div class="home-button">
-<a href="index.html">HOME</a>
-</div>
-<div class="content">
-<h1>HELLO THERE, </h1>
-<P>I AM SOHAN, THE CREATOR OF THIS WEBPAGE...</P>
-<P>IF YOU ENCOUNTER ANY PROBLEM REGARDING THE PAGES OR IF YOU HAVE ANY QUERIES OR HAVE ANY DOUBTS REGARDING </P> <P>THE CODING LANGUAGES, PLEASE LET US KNOW AND WE'LL TRY TO HELP AS FAST AS POSSIBLE</P><P> AND RESOLVE YOUR RESPONSE...</P>
+    <div class="home-button">
+        <a href="index.html">HOME</a>
+    </div>
+    <div class="content">
+        <h1>HELLO THERE,</h1>
+        <p>I AM SOHAN, THE CREATOR OF THIS WEBPAGE...</p>
+        <p>IF YOU ENCOUNTER ANY PROBLEM REGARDING THE PAGES OR IF YOU HAVE ANY QUERIES OR DOUBTS, PLEASE LET US KNOW.</p>
+        <p>WE'LL TRY TO HELP AS FAST AS POSSIBLE AND RESOLVE YOUR ISSUES.</p>
 
-<div class="emailbutton">
-<span class="email-text">Email:</span>
-<a href="mailto:polisohankumarreddy@gmail.com" style="text-declaration: none; color: inherit;">polisohankumarreddy@gmail.com</a>    
-</div>
+        <!-- Feedback Form -->
+        <div class="feedback-form">
+            <h2>Send Us Your Feedback</h2>
+            <form action="https://formspree.io/f/{your_form_id}" method="POST">
+                <textarea name="message" placeholder="Type your feedback here..."></textarea><br><br>
+                <input type="email" name="email" placeholder="Your email" required><br><br>
+                <input type="submit" value="Send Feedback">
+            </form>
+        </div>
+    </div>
 
+    <!-- Scroll to Top Button -->
+    <button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
 
+    <script>
+        // Scroll to top function
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
 
-</div>
-<!-- Scroll to Top Button -->
-<button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
+        // Show the button when the user scrolls down
+        window.onscroll = function() {scrollFunction()};
 
-<script>
-// Scroll to top function
-function scrollToTop() {
-    window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-// Show the button when the user scrolls down
-window.onscroll = function() {scrollFunction()};
-
-function scrollFunction() {
-    let scrollBtn = document.getElementById("scrollBtn");
-    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        scrollBtn.style.display = "block";
-    } else {
-        scrollBtn.style.display = "none";
-    }
-}
-</script>
-
-<style>
-/* Scroll to top button styling */
-#scrollBtn {
-    display: none; /* Hidden by default */
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 99;
-    font-size: 18px;
-    border: none;
-    outline: none;
-    background-color: #333;
-    color: white;
-    cursor: pointer;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-
-#scrollBtn:hover {
-    background-color: #555;
-}
-</style>
+        function scrollFunction() {
+            let scrollBtn = document.getElementById("scrollBtn");
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
+            }
+        }
+    </script>
 
 </body>
 </html>
