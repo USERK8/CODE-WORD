@@ -11,25 +11,15 @@
             background: url('bgimg1.jpeg') center/cover fixed no-repeat;
             height: 100vh;
             overflow-y: auto;
+            color: white;
         }
 
         .content {
             padding: 20px;
-            color: white;
         }
 
         h1, h2, p {
             text-align: center;
-        }
-
-        h1 {
-            font-size: 50px;
-        }
-
-        p {
-            font-size: 20px;
-            line-height: 30px;
-            margin: 50px 0;
         }
 
         .home-button {
@@ -56,6 +46,7 @@
             height: 150px;
             padding: 10px;
             font-size: 16px;
+            margin-top: 10px;
         }
 
         .feedback-form input[type="submit"] {
@@ -69,22 +60,15 @@
             margin-top: 10px;
         }
 
-        .feedback-form input[type="submit"]:hover {
-            background-color: #555;
-        }
-
-        /* Feedback messages container */
+        /* Feedback container styling */
         #feedback-container {
             margin-top: 50px;
-            text-align: center;
-            color: white;
             padding: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.5);
-            border-radius: 5px;
             width: 60%;
             margin-left: auto;
             margin-right: auto;
-            background-color: rgba(0, 0, 0, 0.6);
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
         }
 
         #feedback-container h3 {
@@ -135,7 +119,7 @@
         <div class="feedback-form">
             <h2>Send Us Your Feedback</h2>
             <form onsubmit="addMessage(event)">
-                <textarea name="message" id="message" placeholder="Type your feedback here..." required></textarea><br><br>
+                <textarea id="message" placeholder="Type your feedback here..." required></textarea><br><br>
                 <input type="submit" value="Post Feedback">
             </form>
         </div>
