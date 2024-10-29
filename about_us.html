@@ -12,14 +12,26 @@
             height: 100vh;
             overflow-y: auto;
             color: white;
+            font-family: Arial, sans-serif;
         }
 
         .content {
             padding: 20px;
+            color: white;
         }
 
         h1, h2, p {
             text-align: center;
+        }
+
+        h1 {
+            font-size: 50px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 30px;
+            margin: 50px 0;
         }
 
         .home-button {
@@ -46,65 +58,49 @@
             height: 150px;
             padding: 10px;
             font-size: 16px;
-            margin-top: 10px;
         }
 
         .feedback-form input[type="submit"] {
             padding: 10px 20px;
             font-size: 18px;
+            margin-top: 10px;
             background-color: #333;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
         }
 
-        /* Feedback container styling */
-        #feedback-container {
-            margin-top: 50px;
-            padding: 20px;
+        .feedback-form input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        .feedback-box {
+            margin: 20px auto;
+            padding: 15px;
             width: 60%;
-            margin-left: auto;
-            margin-right: auto;
             background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 8px;
-        }
-
-        #feedback-container h3 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .message {
-            background-color: rgba(255, 255, 255, 0.1);
-            padding: 10px;
-            margin: 10px 0;
             border-radius: 5px;
-            position: relative;
         }
 
-        /* Reply, like, dislike buttons */
-        .actions {
-            margin-top: 10px;
+        .feedback-box p {
+            font-size: 18px;
+            margin: 5px 0;
         }
 
-        .like-dislike {
-            display: inline-flex;
-            align-items: center;
-            margin-right: 10px;
-            cursor: pointer;
-        }
-
-        .reply-section {
-            margin-top: 10px;
+        .replies {
             margin-left: 20px;
+            font-size: 16px;
         }
 
-        .reply-input {
+        .reply-form {
+            margin-top: 10px;
+        }
+
+        .reply-form input[type="text"] {
             width: 80%;
-            padding: 8px;
-            margin-top: 5px;
+            padding: 5px;
+            font-size: 14px;
         }
 
         /* Scroll to top button styling */
@@ -142,25 +138,95 @@
         <!-- Feedback Form -->
         <div class="feedback-form">
             <h2>Send Us Your Feedback</h2>
-            <form onsubmit="addMessage(event)">
-                <textarea id="message" placeholder="Type your feedback here..." required></textarea><br><br>
-                <input type="submit" value="Post Feedback">
-            </form>
+            <textarea id="message" placeholder="Type your feedback here..."></textarea><br><br>
+            <input type="submit" onclick="addFeedback()" value="Post Feedback">
         </div>
 
-        <!-- Feedback Messages Container -->
-        <div id="feedback-container">
-            <h3>FEEDBACKS OF OTHER USERS</h3>
-            <div id="messages">
-                <!-- User messages will appear here -->
-            </div>
-        </div>
+        <!-- Feedback Display Section -->
+        <h2 style="text-align: center; margin-top: 40px;">FEEDBACKS OF OTHER USERS</h2>
+        <div id="feedback-container"></div>
     </div>
 
     <!-- Scroll to Top Button -->
     <button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
 
     <script>
+        // Array to store feedback and replies
+        let feedbacks = [];
+
+        // Function to add feedback
+        function addFeedback() {
+            const message = document.getElementById("message").value;
+            if (message.trim() !== "") {
+                const feedback = {
+                    id: Date.now(), // Unique identifier for each feedback
+                    message: message,
+                    replies: [],
+                    likes: 0,
+                    dislikes: 0
+                };
+                feedbacks.push(feedback);
+                document.getElementById("message").value = ""; // Clear input
+                displayFeedbacks();
+            }
+        }
+
+        // Function to add reply to a specific feedback
+        function addReply(feedbackId) {
+            const replyInput = document.getElementById(`reply-input-${feedbackId}`);
+            const replyText = replyInput.value;
+            if (replyText.trim() !== "") {
+                const feedback = feedbacks.find(f => f.id === feedbackId);
+                feedback.replies.push(replyText);
+                replyInput.value = ""; // Clear reply input
+                displayFeedbacks();
+            }
+        }
+
+        // Function to like or dislike a feedback
+        function likeFeedback(feedbackId) {
+            const feedback = feedbacks.find(f => f.id === feedbackId);
+            feedback.likes++;
+            displayFeedbacks();
+        }
+
+        function dislikeFeedback(feedbackId) {
+            const feedback = feedbacks.find(f => f.id === feedbackId);
+            feedback.dislikes++;
+            displayFeedbacks();
+        }
+
+        // Function to display feedbacks and replies
+        function displayFeedbacks() {
+            const feedbackContainer = document.getElementById("feedback-container");
+            feedbackContainer.innerHTML = ""; // Clear existing feedbacks
+
+            feedbacks.forEach(feedback => {
+                const feedbackDiv = document.createElement("div");
+                feedbackDiv.className = "feedback-box";
+                feedbackDiv.innerHTML = `
+                    <p>${feedback.message}</p>
+                    <button onclick="likeFeedback(${feedback.id})">👍 ${feedback.likes}</button>
+                    <button onclick="dislikeFeedback(${feedback.id})">👎 ${feedback.dislikes}</button>
+                    <button onclick="toggleReplyForm(${feedback.id})">Reply</button>
+                    <div id="replies-${feedback.id}" class="replies">
+                        ${feedback.replies.map(reply => `<p class="reply">↪ ${reply}</p>`).join("")}
+                    </div>
+                    <div id="reply-form-${feedback.id}" class="reply-form" style="display:none;">
+                        <input type="text" id="reply-input-${feedback.id}" placeholder="Type your reply here...">
+                        <button onclick="addReply(${feedback.id})">Post Reply</button>
+                    </div>
+                `;
+                feedbackContainer.appendChild(feedbackDiv);
+            });
+        }
+
+        // Function to toggle reply form visibility
+        function toggleReplyForm(feedbackId) {
+            const replyForm = document.getElementById(`reply-form-${feedbackId}`);
+            replyForm.style.display = replyForm.style.display === "none" ? "block" : "none";
+        }
+
         // Scroll to top function
         function scrollToTop() {
             window.scrollTo({top: 0, behavior: 'smooth'});
@@ -171,67 +237,10 @@
 
         function scrollFunction() {
             let scrollBtn = document.getElementById("scrollBtn");
-            scrollBtn.style.display = (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) ? "block" : "none";
-        }
-
-        // Function to add the message to the messages section
-        function addMessage(event) {
-            event.preventDefault(); // Prevent form submission
-            const messageBox = document.getElementById("message");
-            const messagesContainer = document.getElementById("messages");
-            const messageText = messageBox.value;
-
-            if (messageText.trim() !== "") {
-                // Create a new message element
-                const newMessage = document.createElement("div");
-                newMessage.classList.add("message");
-                newMessage.innerHTML = `
-                    <p>${messageText}</p>
-                    <div class="actions">
-                        <span class="like-dislike" onclick="toggleLike(this)">👍 <span class="like-count">0</span></span>
-                        <span class="like-dislike" onclick="toggleDislike(this)">👎 <span class="dislike-count">0</span></span>
-                        <button onclick="showReplyInput(this)">Reply</button>
-                    </div>
-                    <div class="reply-section" style="display: none;">
-                        <textarea class="reply-input" placeholder="Type your reply here..."></textarea>
-                        <button onclick="addReply(this)">Post Reply</button>
-                    </div>
-                `;
-
-                messagesContainer.prepend(newMessage);
-                messageBox.value = "";
-            }
-        }
-
-        // Toggle like count
-        function toggleLike(button) {
-            const likeCount = button.querySelector(".like-count");
-            likeCount.textContent = parseInt(likeCount.textContent) + 1;
-        }
-
-        // Toggle dislike count
-        function toggleDislike(button) {
-            const dislikeCount = button.querySelector(".dislike-count");
-            dislikeCount.textContent = parseInt(dislikeCount.textContent) + 1;
-        }
-
-        // Show reply input field
-        function showReplyInput(button) {
-            const replySection = button.nextElementSibling;
-            replySection.style.display = replySection.style.display === "none" ? "block" : "none";
-        }
-
-        // Add reply to the message
-        function addReply(button) {
-            const replyInput = button.previousElementSibling;
-            const replyText = replyInput.value;
-            if (replyText.trim() !== "") {
-                const replyMessage = document.createElement("div");
-                replyMessage.classList.add("message");
-                replyMessage.style.marginLeft = "20px";
-                replyMessage.innerHTML = `<p>${replyText}</p>`;
-                button.closest(".reply-section").appendChild(replyMessage);
-                replyInput.value = "";
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                scrollBtn.style.display = "block";
+            } else {
+                scrollBtn.style.display = "none";
             }
         }
     </script>
