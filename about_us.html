@@ -73,11 +73,23 @@
             background-color: #555;
         }
 
-        #messages {
-            margin-top: 20px;
-            text-align: left;
+        /* Feedback messages container */
+        #feedback-container {
+            margin-top: 50px;
+            text-align: center;
             color: white;
-            padding: 0 20%;
+            padding: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            border-radius: 5px;
+            width: 60%;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
+
+        #feedback-container h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
         .message {
@@ -126,7 +138,11 @@
                 <textarea name="message" id="message" placeholder="Type your feedback here..." required></textarea><br><br>
                 <input type="submit" value="Post Feedback">
             </form>
-            <!-- Display messages here -->
+        </div>
+
+        <!-- Feedback Messages Container -->
+        <div id="feedback-container">
+            <h3>FEEDBACKS OF OTHER USERS</h3>
             <div id="messages">
                 <!-- User messages will appear here -->
             </div>
