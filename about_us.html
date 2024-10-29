@@ -73,6 +73,20 @@
             background-color: #555;
         }
 
+        #messages {
+            margin-top: 20px;
+            text-align: left;
+            color: white;
+            padding: 0 20%;
+        }
+
+        .message {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
         /* Scroll to top button styling */
         #scrollBtn {
             display: none;
@@ -108,13 +122,13 @@
         <!-- Feedback Form -->
         <div class="feedback-form">
             <h2>Send Us Your Feedback</h2>
-            <form action="submit_feedback.php" method="POST">
-                <textarea name="message" id="message" placeholder="Type your feedback here..."></textarea><br><br>
+            <form onsubmit="addMessage(event)">
+                <textarea name="message" id="message" placeholder="Type your feedback here..." required></textarea><br><br>
                 <input type="submit" value="Post Feedback">
             </form>
             <!-- Display messages here -->
             <div id="messages">
-                <!-- Messages from other users would appear here if implemented with a server-side script -->
+                <!-- User messages will appear here -->
             </div>
         </div>
     </div>
@@ -137,6 +151,27 @@
                 scrollBtn.style.display = "block";
             } else {
                 scrollBtn.style.display = "none";
+            }
+        }
+
+        // Function to add the message to the messages section
+        function addMessage(event) {
+            event.preventDefault();
+            const messageBox = document.getElementById("message");
+            const messagesContainer = document.getElementById("messages");
+            const messageText = messageBox.value;
+
+            if (messageText.trim() !== "") {
+                // Create a new message element
+                const newMessage = document.createElement("div");
+                newMessage.classList.add("message");
+                newMessage.textContent = messageText;
+
+                // Add the new message to the top of the messages container
+                messagesContainer.prepend(newMessage);
+
+                // Clear the textarea
+                messageBox.value = "";
             }
         }
     </script>
