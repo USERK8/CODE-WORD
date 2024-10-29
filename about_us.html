@@ -81,6 +81,30 @@
             padding: 10px;
             margin: 10px 0;
             border-radius: 5px;
+            position: relative;
+        }
+
+        /* Reply, like, dislike buttons */
+        .actions {
+            margin-top: 10px;
+        }
+
+        .like-dislike {
+            display: inline-flex;
+            align-items: center;
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .reply-section {
+            margin-top: 10px;
+            margin-left: 20px;
+        }
+
+        .reply-input {
+            width: 80%;
+            padding: 8px;
+            margin-top: 5px;
         }
 
         /* Scroll to top button styling */
@@ -147,16 +171,12 @@
 
         function scrollFunction() {
             let scrollBtn = document.getElementById("scrollBtn");
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                scrollBtn.style.display = "block";
-            } else {
-                scrollBtn.style.display = "none";
-            }
+            scrollBtn.style.display = (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) ? "block" : "none";
         }
 
         // Function to add the message to the messages section
         function addMessage(event) {
-            event.preventDefault(); // Prevent traditional form submission
+            event.preventDefault(); // Prevent form submission
             const messageBox = document.getElementById("message");
             const messagesContainer = document.getElementById("messages");
             const messageText = messageBox.value;
@@ -165,13 +185,53 @@
                 // Create a new message element
                 const newMessage = document.createElement("div");
                 newMessage.classList.add("message");
-                newMessage.textContent = messageText;
+                newMessage.innerHTML = `
+                    <p>${messageText}</p>
+                    <div class="actions">
+                        <span class="like-dislike" onclick="toggleLike(this)">👍 <span class="like-count">0</span></span>
+                        <span class="like-dislike" onclick="toggleDislike(this)">👎 <span class="dislike-count">0</span></span>
+                        <button onclick="showReplyInput(this)">Reply</button>
+                    </div>
+                    <div class="reply-section" style="display: none;">
+                        <textarea class="reply-input" placeholder="Type your reply here..."></textarea>
+                        <button onclick="addReply(this)">Post Reply</button>
+                    </div>
+                `;
 
-                // Add the new message to the top of the messages container
                 messagesContainer.prepend(newMessage);
-
-                // Clear the textarea
                 messageBox.value = "";
+            }
+        }
+
+        // Toggle like count
+        function toggleLike(button) {
+            const likeCount = button.querySelector(".like-count");
+            likeCount.textContent = parseInt(likeCount.textContent) + 1;
+        }
+
+        // Toggle dislike count
+        function toggleDislike(button) {
+            const dislikeCount = button.querySelector(".dislike-count");
+            dislikeCount.textContent = parseInt(dislikeCount.textContent) + 1;
+        }
+
+        // Show reply input field
+        function showReplyInput(button) {
+            const replySection = button.nextElementSibling;
+            replySection.style.display = replySection.style.display === "none" ? "block" : "none";
+        }
+
+        // Add reply to the message
+        function addReply(button) {
+            const replyInput = button.previousElementSibling;
+            const replyText = replyInput.value;
+            if (replyText.trim() !== "") {
+                const replyMessage = document.createElement("div");
+                replyMessage.classList.add("message");
+                replyMessage.style.marginLeft = "20px";
+                replyMessage.innerHTML = `<p>${replyText}</p>`;
+                button.closest(".reply-section").appendChild(replyMessage);
+                replyInput.value = "";
             }
         }
     </script>
