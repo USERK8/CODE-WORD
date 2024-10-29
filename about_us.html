@@ -156,7 +156,7 @@
 
         // Function to add the message to the messages section
         function addMessage(event) {
-            event.preventDefault();
+            event.preventDefault(); // Prevent traditional form submission
             const messageBox = document.getElementById("message");
             const messagesContainer = document.getElementById("messages");
             const messageText = messageBox.value;
