@@ -1,4 +1,3 @@
-<!-- about.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,43 +5,194 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABOUT US</title>
     <style>
-        /* Add relevant styles */
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('bgimg1.jpeg') center/cover fixed no-repeat;
+            height: 100vh;
+            overflow-y: auto;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1, h2, p {
+            margin: 10px 0;
+        }
+
+        h1 {
+            font-size: 50px;
+        }
+
+        p {
+            font-size: 20px;
+            line-height: 30px;
+        }
+
+        .home-button {
+            margin-top: 20px;
+        }
+
+        .home-button a {
+            padding: 10px 15px;
+            font-size: 20px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .feedback-form {
+            margin-top: 20px;
+        }
+
+        .feedback-form textarea {
+            width: 60%;
+            height: 150px;
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        .feedback-form input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-top: 10px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .feedback-form input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        .feedbacks {
+            margin-top: 20px;
+            width: 60%;
+        }
+
+        .feedback {
+            border: 1px solid #555;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .feedback button {
+            margin: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #fff;
+        }
+
+        .reply-box {
+            display: none;
+            margin-top: 10px;
+        }
+
+        .reply-box textarea {
+            width: 90%;
+            height: 50px;
+            padding: 5px;
+        }
+
+        .credits {
+            margin-top: 50px;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
-    <div class="content">
-        <h1>About Us</h1>
-        <p>Welcome! Please leave your feedback below.</p>
+    <div class="home-button">
+        <a href="index.html">HOME</a>
+    </div>
+    <h1>HELLO THERE,</h1>
+    <p>I AM SOHAN, THE CREATOR OF THIS WEBPAGE...</p>
+    <p>IF YOU ENCOUNTER ANY PROBLEM REGARDING THE PAGES OR IF YOU HAVE ANY QUERIES OR DOUBTS, PLEASE LET US KNOW.</p>
+    <p>WE'LL TRY TO HELP AS FAST AS POSSIBLE AND RESOLVE YOUR ISSUES.</p>
 
-        <!-- Feedback Form -->
-        <div class="feedback-form">
-            <h2>Send Us Your Feedback</h2>
-            <textarea id="message" placeholder="Type your feedback here..."></textarea><br><br>
-            <button onclick="addFeedback()">Submit Feedback</button>
-            <br><br>
-            <button onclick="window.location.href='feedback.html'">View All Feedback</button>
-        </div>
+    <!-- Feedback Form -->
+    <div class="feedback-form">
+        <h2>Send Us Your Feedback</h2>
+        <form id="feedbackForm">
+            <textarea name="message" id="message" placeholder="Type your feedback here..." required></textarea><br><br>
+            <input type="submit" value="Send Feedback">
+        </form>
+    </div>
+
+    <!-- Feedbacks Section -->
+    <div class="feedbacks" id="feedbacks">
+        <h2>FEEDBACKS OF OTHER USERS</h2>
+    </div>
+
+    <div class="credits">
+        <p>Credits: Your Name | Date</p>
     </div>
 
     <script>
-        // Save feedback to localStorage
-        function addFeedback() {
-            const message = document.getElementById("message").value;
-            if (message.trim() !== "") {
-                const feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
-                const feedback = {
-                    id: Date.now(),
-                    message: message,
-                    replies: [],
-                    likes: 0,
-                    dislikes: 0
-                };
-                feedbacks.push(feedback);
-                localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
-                document.getElementById("message").value = ""; // Clear input
-                alert("Feedback submitted! View it on the feedback page.");
-            }
-        }
+        // Feedback submission
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const message = document.getElementById('message').value;
+
+            const feedbacksDiv = document.getElementById('feedbacks');
+
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = 'feedback';
+
+            feedbackDiv.innerHTML = `
+                <p>${message}</p>
+                <button class="like-btn">👍 0</button>
+                <button class="dislike-btn">👎 0</button>
+                <div class="reply-box">
+                    <textarea placeholder="Reply..."></textarea>
+                    <button class="submit-reply">Reply</button>
+                </div>
+                <button class="reply-btn">Reply</button>
+            `;
+
+            feedbacksDiv.appendChild(feedbackDiv);
+            document.getElementById('message').value = '';
+
+            // Handle like/dislike functionality
+            let likeCount = 0;
+            let dislikeCount = 0;
+
+            feedbackDiv.querySelector('.like-btn').addEventListener('click', function() {
+                likeCount++;
+                feedbackDiv.querySelector('.like-btn').textContent = `👍 ${likeCount}`;
+            });
+
+            feedbackDiv.querySelector('.dislike-btn').addEventListener('click', function() {
+                dislikeCount++;
+                feedbackDiv.querySelector('.dislike-btn').textContent = `👎 ${dislikeCount}`;
+            });
+
+            // Show reply box on reply button click
+            feedbackDiv.querySelector('.reply-btn').addEventListener('click', function() {
+                const replyBox = feedbackDiv.querySelector('.reply-box');
+                replyBox.style.display = replyBox.style.display === 'none' ? 'block' : 'none';
+            });
+
+            // Handle reply submission
+            feedbackDiv.querySelector('.submit-reply').addEventListener('click', function() {
+                const replyMessage = feedbackDiv.querySelector('.reply-box textarea').value;
+                if (replyMessage) {
+                    const replyDiv = document.createElement('div');
+                    replyDiv.className = 'feedback';
+                    replyDiv.innerHTML = `<p>${replyMessage}</p>`;
+                    feedbacksDiv.appendChild(replyDiv);
+                    feedbackDiv.querySelector('.reply-box textarea').value = '';
+                    feedbackDiv.querySelector('.reply-box').style.display = 'none';
+                }
+            });
+        });
     </script>
 </body>
 </html>
