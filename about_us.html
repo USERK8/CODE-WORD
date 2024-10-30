@@ -1,3 +1,4 @@
+<!-- about.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,55 +6,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABOUT US</title>
     <style>
-        /* Add your styling here */
-        .feedback-box {
-            border: 1px solid #ddd;
-            padding: 10px;
-            margin: 10px 0;
-            background-color: #f9f9f9;
-        }
-        .reply {
-            margin-left: 20px;
-            font-style: italic;
-        }
-        .replies {
-            margin-top: 10px;
-        }
+        /* Add relevant styles */
     </style>
 </head>
 <body>
-    <div class="home-button">
-        <a href="index.html">HOME</a>
-    </div>
     <div class="content">
-        <h1>HELLO THERE,</h1>
-        <p>I AM SOHAN, THE CREATOR OF THIS WEBPAGE...</p>
-        <p>IF YOU ENCOUNTER ANY PROBLEM REGARDING THE PAGES OR IF YOU HAVE ANY QUERIES OR DOUBTS, PLEASE LET US KNOW.</p>
-        <p>WE'LL TRY TO HELP AS FAST AS POSSIBLE AND RESOLVE YOUR ISSUES.</p>
+        <h1>About Us</h1>
+        <p>Welcome! Please leave your feedback below.</p>
 
         <!-- Feedback Form -->
         <div class="feedback-form">
             <h2>Send Us Your Feedback</h2>
             <textarea id="message" placeholder="Type your feedback here..."></textarea><br><br>
-            <button onclick="addFeedback()">Post Feedback</button>
+            <button onclick="addFeedback()">Submit Feedback</button>
+            <br><br>
+            <button onclick="window.location.href='feedback.html'">View All Feedback</button>
         </div>
-
-        <!-- Feedback Display Section -->
-        <h2 style="text-align: center; margin-top: 40px;">FEEDBACKS OF OTHER USERS</h2>
-        <div id="feedback-container"></div>
     </div>
 
-    <!-- Scroll to Top Button -->
-    <button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
-
     <script>
-        // Load feedbacks from localStorage or initialize an empty array if none
-        let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
-
-        // Function to add feedback
+        // Save feedback to localStorage
         function addFeedback() {
             const message = document.getElementById("message").value;
             if (message.trim() !== "") {
+                const feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
                 const feedback = {
                     id: Date.now(),
                     message: message,
@@ -62,94 +38,11 @@
                     dislikes: 0
                 };
                 feedbacks.push(feedback);
-                saveFeedbacks(); // Save to localStorage
+                localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
                 document.getElementById("message").value = ""; // Clear input
-                displayFeedbacks(); // Refresh display
+                alert("Feedback submitted! View it on the feedback page.");
             }
         }
-
-        // Function to save feedbacks to localStorage
-        function saveFeedbacks() {
-            localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
-        }
-
-        // Function to display feedbacks and replies
-        function displayFeedbacks() {
-            const feedbackContainer = document.getElementById("feedback-container");
-            feedbackContainer.innerHTML = ""; // Clear existing feedbacks
-
-            feedbacks.forEach(feedback => {
-                const feedbackDiv = document.createElement("div");
-                feedbackDiv.className = "feedback-box";
-                feedbackDiv.innerHTML = `
-                    <p>${feedback.message}</p>
-                    <button onclick="likeFeedback(${feedback.id})">👍 ${feedback.likes}</button>
-                    <button onclick="dislikeFeedback(${feedback.id})">👎 ${feedback.dislikes}</button>
-                    <button onclick="toggleReplyForm(${feedback.id})">Reply</button>
-                    <div id="replies-${feedback.id}" class="replies">
-                        ${feedback.replies.map(reply => `<p class="reply">↪ ${reply}</p>`).join("")}
-                    </div>
-                    <div id="reply-form-${feedback.id}" class="reply-form" style="display:none;">
-                        <input type="text" id="reply-input-${feedback.id}" placeholder="Type your reply here...">
-                        <button onclick="addReply(${feedback.id})">Post Reply</button>
-                    </div>
-                `;
-                feedbackContainer.appendChild(feedbackDiv);
-            });
-        }
-
-        // Function to add reply to a specific feedback
-        function addReply(feedbackId) {
-            const replyInput = document.getElementById(`reply-input-${feedbackId}`);
-            const replyText = replyInput.value;
-            if (replyText.trim() !== "") {
-                const feedback = feedbacks.find(f => f.id === feedbackId);
-                feedback.replies.push(replyText);
-                saveFeedbacks(); // Save to localStorage after adding reply
-                displayFeedbacks(); // Refresh display
-            }
-        }
-
-        // Function to toggle reply form visibility
-        function toggleReplyForm(feedbackId) {
-            const replyForm = document.getElementById(`reply-form-${feedbackId}`);
-            replyForm.style.display = replyForm.style.display === "none" ? "block" : "none";
-        }
-
-        // Function to like or dislike a feedback
-        function likeFeedback(feedbackId) {
-            const feedback = feedbacks.find(f => f.id === feedbackId);
-            feedback.likes++;
-            saveFeedbacks(); // Save to localStorage after like
-            displayFeedbacks(); // Refresh display
-        }
-
-        function dislikeFeedback(feedbackId) {
-            const feedback = feedbacks.find(f => f.id === feedbackId);
-            feedback.dislikes++;
-            saveFeedbacks(); // Save to localStorage after dislike
-            displayFeedbacks(); // Refresh display
-        }
-
-        // Scroll to top function
-        function scrollToTop() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        // Show the button when the user scrolls down
-        window.onscroll = function() {scrollFunction()};
-
-        function scrollFunction() {
-            let scrollBtn = document.getElementById("scrollBtn");
-            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                scrollBtn.style.display = "block";
-            } else {
-                scrollBtn.style.display = "none";
-            }
-        }
-
-        // Initial display of feedbacks on page load
-        displayFeedbacks();
     </script>
 </body>
 </html>
