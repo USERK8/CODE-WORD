@@ -6,6 +6,19 @@
     <title>ABOUT US</title>
     <style>
         /* Add your styling here */
+        .feedback-box {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+        }
+        .reply {
+            margin-left: 20px;
+            font-style: italic;
+        }
+        .replies {
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -22,7 +35,7 @@
         <div class="feedback-form">
             <h2>Send Us Your Feedback</h2>
             <textarea id="message" placeholder="Type your feedback here..."></textarea><br><br>
-            <input type="submit" onclick="addFeedback()" value="Post Feedback">
+            <button onclick="addFeedback()">Post Feedback</button>
         </div>
 
         <!-- Feedback Display Section -->
@@ -34,8 +47,8 @@
     <button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
 
     <script>
-        // Array to store feedback and replies
-        let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || []; // Load from localStorage if available
+        // Load feedbacks from localStorage or initialize an empty array if none
+        let feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
 
         // Function to add feedback
         function addFeedback() {
@@ -49,43 +62,15 @@
                     dislikes: 0
                 };
                 feedbacks.push(feedback);
+                saveFeedbacks(); // Save to localStorage
                 document.getElementById("message").value = ""; // Clear input
-                saveFeedbacks(); // Save feedbacks to localStorage
-                displayFeedbacks();
+                displayFeedbacks(); // Refresh display
             }
         }
 
         // Function to save feedbacks to localStorage
         function saveFeedbacks() {
             localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
-        }
-
-        // Function to add reply to a specific feedback
-        function addReply(feedbackId) {
-            const replyInput = document.getElementById(`reply-input-${feedbackId}`);
-            const replyText = replyInput.value;
-            if (replyText.trim() !== "") {
-                const feedback = feedbacks.find(f => f.id === feedbackId);
-                feedback.replies.push(replyText);
-                replyInput.value = ""; // Clear reply input
-                saveFeedbacks(); // Save to localStorage after adding reply
-                displayFeedbacks();
-            }
-        }
-
-        // Function to like or dislike a feedback
-        function likeFeedback(feedbackId) {
-            const feedback = feedbacks.find(f => f.id === feedbackId);
-            feedback.likes++;
-            saveFeedbacks(); // Save to localStorage after like
-            displayFeedbacks();
-        }
-
-        function dislikeFeedback(feedbackId) {
-            const feedback = feedbacks.find(f => f.id === feedbackId);
-            feedback.dislikes++;
-            saveFeedbacks(); // Save to localStorage after dislike
-            displayFeedbacks();
         }
 
         // Function to display feedbacks and replies
@@ -113,10 +98,37 @@
             });
         }
 
+        // Function to add reply to a specific feedback
+        function addReply(feedbackId) {
+            const replyInput = document.getElementById(`reply-input-${feedbackId}`);
+            const replyText = replyInput.value;
+            if (replyText.trim() !== "") {
+                const feedback = feedbacks.find(f => f.id === feedbackId);
+                feedback.replies.push(replyText);
+                saveFeedbacks(); // Save to localStorage after adding reply
+                displayFeedbacks(); // Refresh display
+            }
+        }
+
         // Function to toggle reply form visibility
         function toggleReplyForm(feedbackId) {
             const replyForm = document.getElementById(`reply-form-${feedbackId}`);
             replyForm.style.display = replyForm.style.display === "none" ? "block" : "none";
+        }
+
+        // Function to like or dislike a feedback
+        function likeFeedback(feedbackId) {
+            const feedback = feedbacks.find(f => f.id === feedbackId);
+            feedback.likes++;
+            saveFeedbacks(); // Save to localStorage after like
+            displayFeedbacks(); // Refresh display
+        }
+
+        function dislikeFeedback(feedbackId) {
+            const feedback = feedbacks.find(f => f.id === feedbackId);
+            feedback.dislikes++;
+            saveFeedbacks(); // Save to localStorage after dislike
+            displayFeedbacks(); // Refresh display
         }
 
         // Scroll to top function
