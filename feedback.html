@@ -1,0 +1,89 @@
+<!-- feedback.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Feedback</title>
+    <style>
+        /* Add styles for feedback display */
+        .feedback-box { border: 1px solid #ddd; padding: 10px; margin: 10px 0; background-color: #f9f9f9; }
+        .reply { margin-left: 20px; font-style: italic; }
+        .replies { margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="content">
+        <h1>User Feedback</h1>
+        <div id="feedback-container"></div>
+        <button onclick="window.location.href='about.html'">Back to About Page</button>
+    </div>
+
+    <script>
+        // Load and display feedbacks from localStorage
+        function displayFeedbacks() {
+            const feedbackContainer = document.getElementById("feedback-container");
+            const feedbacks = JSON.parse(localStorage.getItem("feedbacks")) || [];
+            feedbackContainer.innerHTML = ""; // Clear existing feedbacks
+
+            feedbacks.forEach(feedback => {
+                const feedbackDiv = document.createElement("div");
+                feedbackDiv.className = "feedback-box";
+                feedbackDiv.innerHTML = `
+                    <p>${feedback.message}</p>
+                    <button onclick="likeFeedback(${feedback.id})">👍 ${feedback.likes}</button>
+                    <button onclick="dislikeFeedback(${feedback.id})">👎 ${feedback.dislikes}</button>
+                    <button onclick="toggleReplyForm(${feedback.id})">Reply</button>
+                    <div id="replies-${feedback.id}" class="replies">
+                        ${feedback.replies.map(reply => `<p class="reply">↪ ${reply}</p>`).join("")}
+                    </div>
+                    <div id="reply-form-${feedback.id}" class="reply-form" style="display:none;">
+                        <input type="text" id="reply-input-${feedback.id}" placeholder="Type your reply here...">
+                        <button onclick="addReply(${feedback.id})">Post Reply</button>
+                    </div>
+                `;
+                feedbackContainer.appendChild(feedbackDiv);
+            });
+        }
+
+        // Toggle reply form
+        function toggleReplyForm(feedbackId) {
+            const replyForm = document.getElementById(`reply-form-${feedbackId}`);
+            replyForm.style.display = replyForm.style.display === "none" ? "block" : "none";
+        }
+
+        // Like or dislike feedback functions
+        function likeFeedback(feedbackId) {
+            const feedbacks = JSON.parse(localStorage.getItem("feedbacks"));
+            const feedback = feedbacks.find(f => f.id === feedbackId);
+            feedback.likes++;
+            localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+            displayFeedbacks();
+        }
+
+        function dislikeFeedback(feedbackId) {
+            const feedbacks = JSON.parse(localStorage.getItem("feedbacks"));
+            const feedback = feedbacks.find(f => f.id === feedbackId);
+            feedback.dislikes++;
+            localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+            displayFeedbacks();
+        }
+
+        // Add reply to a specific feedback
+        function addReply(feedbackId) {
+            const replyInput = document.getElementById(`reply-input-${feedbackId}`);
+            const replyText = replyInput.value;
+            if (replyText.trim() !== "") {
+                const feedbacks = JSON.parse(localStorage.getItem("feedbacks"));
+                const feedback = feedbacks.find(f => f.id === feedbackId);
+                feedback.replies.push(replyText);
+                localStorage.setItem("feedbacks", JSON.stringify(feedbacks));
+                displayFeedbacks();
+            }
+        }
+
+        // Display feedbacks on page load
+        displayFeedbacks();
+    </script>
+</body>
+</html>
