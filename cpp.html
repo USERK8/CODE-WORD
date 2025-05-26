@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>C++ Code Example</title>
+    <title>C++ Basics</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -21,15 +21,13 @@
             100% { background-position: 0% 50%; }
         }
 
-        h1 {
-            font-size: 36px;
-            margin-bottom: 10px;
+        h1, h2 {
             color: #c3a6ff;
         }
 
-        p {
-            font-size: 18px;
-            margin-bottom: 20px;
+        a {
+            color: #66ffe0;
+            text-decoration: underline;
         }
 
         pre {
@@ -64,6 +62,23 @@
         .home-button a:hover {
             background-color: #333;
         }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        p {
+            font-size: 17px;
+            line-height: 1.6;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -73,12 +88,31 @@
         <a href="index.html">HOME</a>
     </div>
 
-    <h1>C++ Code Example</h1>
+    <!-- INTRO -->
+    <section>
+        <h1>Learn C++ Programming</h1>
+        <p>C++ is a high-performance, general-purpose programming language widely used in system/software development, game development, and competitive programming. It combines the speed of C with object-oriented features, making it both powerful and flexible.</p>
+    </section>
 
-    <p>Here is a basic C++ program:</p>
+    <!-- INSTALLATION -->
+    <section>
+        <h2>🔧 How to Install a Lightweight C++ Compiler</h2>
+        <p>Here are free and lightweight ways to write and run C++ code on different devices:</p>
+        <ul>
+            <li><strong>Windows:</strong> Install <a href="https://code.visualstudio.com/" target="_blank">VS Code</a> + <a href="https://www.mingw-w64.org/" target="_blank">MinGW Compiler</a> (recommended combo).</li>
+            <li><strong>Linux:</strong> Use terminal to install G++:<br><code>sudo apt install g++</code></li>
+            <li><strong>Android:</strong> Use the app <a href="https://play.google.com/store/apps/details?id=com.iodevs.cppdroid" target="_blank">C++Droid</a> from Play Store.</li>
+            <li><strong>iOS:</strong> Use <a href="https://apps.apple.com/us/app/cpp-programming/id6443452316" target="_blank">C++ Programming</a> from App Store (limited support).</li>
+            <li><strong>Online (Any Device):</strong> Try <a href="https://www.programiz.com/cpp-programming/online-compiler/" target="_blank">Programiz Online Compiler</a> or <a href="https://cpp.sh/" target="_blank">cpp.sh</a>.</li>
+        </ul>
+    </section>
 
-    <pre><code>
-// Simple C++ Program
+    <!-- SAMPLE CODE -->
+    <section>
+        <h2>🧪 Simple Test Code</h2>
+        <p>This is a basic C++ program that displays <code>Hello, World!</code> in the output. Perfect to test if everything works:</p>
+
+        <pre><code>// Simple C++ Program
 #include &lt;iostream&gt;
 using namespace std;
 
@@ -86,7 +120,16 @@ int main() {
     cout &lt;&lt; "Hello, World!" &lt;&lt; endl;
     return 0;
 }
-    </code></pre>
+        </code></pre>
+
+        <p><strong>Explanation:</strong></p>
+        <ul>
+            <li><code>#include &lt;iostream&gt;</code> lets you use input/output functions like <code>cout</code>.</li>
+            <li><code>using namespace std;</code> avoids writing <code>std::cout</code> every time.</li>
+            <li><code>main()</code> is the entry point of the program.</li>
+            <li><code>cout &lt;&lt; "Hello, World!"</code> displays the message.</li>
+        </ul>
+    </section>
 
 </body>
 </html>
