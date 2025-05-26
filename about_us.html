@@ -5,63 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ABOUT US</title>
     <style>
-        
         body {
             margin: 0;
             padding: 0;
-            background: url('bgimg1.jpeg') center/cover fixed no-repeat;
-            height: 100vh;
-            overflow-y: auto;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1a1a1a, #330000, #003300);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             color: white;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             text-align: center;
+            overflow-y: auto;
         }
 
-        h1, h2, p {
-            margin: 10px 0;
-        }
-
-        h1 {
-            font-size: 50px;
-        }
-
-        p {
-            font-size: 20px;
-            line-height: 30px;
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .home-button {
-            margin-top: 20px;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
         }
 
         .home-button a {
             padding: 10px 15px;
-            font-size: 20px;
-            background-color: #333;
+            font-size: 18px;
+            background-color: #222;
             color: white;
             text-decoration: none;
             border-radius: 5px;
+            border: 1px solid #555;
+        }
+
+        h1 {
+            margin-top: 100px;
+            font-size: 48px;
+            color: #ffcccc;
+        }
+
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 10px auto;
         }
 
         .feedback-form {
-            margin-top: 20px;
+            margin: 40px auto 20px;
         }
 
         .feedback-form textarea {
-            width: 60%;
+            width: 80%;
             height: 150px;
             padding: 10px;
             font-size: 16px;
+            border: 1px solid #666;
+            border-radius: 5px;
+            background-color: #111;
+            color: white;
         }
 
         .feedback-form input[type="submit"] {
-            padding: 10px 20px;
-            font-size: 18px;
             margin-top: 10px;
-            background-color: #333;
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #444;
             color: white;
             border: none;
             border-radius: 5px;
@@ -69,27 +81,28 @@
         }
 
         .feedback-form input[type="submit"]:hover {
-            background-color: #555;
+            background-color: #666;
         }
 
         .feedbacks {
-            margin-top: 20px;
-            width: 60%;
+            width: 80%;
+            margin: 30px auto;
         }
 
         .feedback {
-            border: 1px solid #555;
-            margin: 10px 0;
-            padding: 10px;
+            background-color: #222;
+            padding: 15px;
             border-radius: 5px;
+            margin: 15px 0;
+            border: 1px solid #444;
         }
 
         .feedback button {
-            margin: 5px;
             background: none;
             border: none;
+            color: #ccc;
             cursor: pointer;
-            color: #fff;
+            margin: 0 5px;
         }
 
         .reply-box {
@@ -101,18 +114,22 @@
             width: 90%;
             height: 50px;
             padding: 5px;
+            border-radius: 5px;
+            background-color: #111;
+            color: white;
         }
 
         .credits {
             margin-top: 50px;
             font-size: 16px;
+            color: #aaa;
         }
     </style>
 </head>
 <body>
-    <div class="home-button" style="position: absolute; top: 20px; left: 20px; z-index: 10;">
-    <a href="index.html" style="padding: 10px 15px; font-size: 20px; background-color: #333; color: white; text-decoration: none; border-radius: 5px;">HOME</a>
-</div>
+    <div class="home-button">
+        <a href="index.html">HOME</a>
+    </div>
 
     <h1>HELLO THERE,</h1>
     <p>I, SOHAN, THE CREATOR OF THIS WEBPAGE...</p>
@@ -123,7 +140,7 @@
     <div class="feedback-form">
         <h2>Send Us Your Feedback</h2>
         <form id="feedbackForm">
-            <textarea name="message" id="message" placeholder="Type your feedback here..." required></textarea><br><br>
+            <textarea name="message" id="message" placeholder="Type your feedback here..." required></textarea><br>
             <input type="submit" value="Send Feedback">
         </form>
     </div>
@@ -137,93 +154,59 @@
         <p>Credits: SOHAN | SAMEER</p>
     </div>
 
-<script>
-    function createFeedbackElement(messageObj, index) {
-        const feedbackDiv = document.createElement('div');
-        feedbackDiv.className = 'feedback';
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const message = document.getElementById('message').value;
+            const feedbacksDiv = document.getElementById('feedbacks');
 
-        feedbackDiv.innerHTML = `
-            <p>${messageObj.message}</p>
-            <button class="like-btn">👍 ${messageObj.likes}</button>
-            <button class="dislike-btn">👎 ${messageObj.dislikes}</button>
-            <div class="reply-box">
-                <textarea placeholder="Reply..."></textarea>
-                <button class="submit-reply">Reply</button>
-            </div>
-            <button class="reply-btn">Reply</button>
-        `;
+            const feedbackDiv = document.createElement('div');
+            feedbackDiv.className = 'feedback';
 
-        // Like button
-        feedbackDiv.querySelector('.like-btn').addEventListener('click', function () {
-            messageObj.likes++;
-            saveToLocalStorage();
-            this.textContent = `👍 ${messageObj.likes}`;
-        });
+            feedbackDiv.innerHTML = `
+                <p>${message}</p>
+                <button class="like-btn">👍 0</button>
+                <button class="dislike-btn">👎 0</button>
+                <div class="reply-box">
+                    <textarea placeholder="Reply..."></textarea>
+                    <button class="submit-reply">Reply</button>
+                </div>
+                <button class="reply-btn">Reply</button>
+            `;
 
-        // Dislike button
-        feedbackDiv.querySelector('.dislike-btn').addEventListener('click', function () {
-            messageObj.dislikes++;
-            saveToLocalStorage();
-            this.textContent = `👎 ${messageObj.dislikes}`;
-        });
-
-        // Reply toggle
-        feedbackDiv.querySelector('.reply-btn').addEventListener('click', function () {
-            const replyBox = feedbackDiv.querySelector('.reply-box');
-            replyBox.style.display = replyBox.style.display === 'none' ? 'block' : 'none';
-        });
-
-        // Submit reply
-        feedbackDiv.querySelector('.submit-reply').addEventListener('click', function () {
-            const replyMessage = feedbackDiv.querySelector('.reply-box textarea').value;
-            if (replyMessage) {
-                const replyDiv = document.createElement('div');
-                replyDiv.className = 'feedback';
-                replyDiv.innerHTML = `<p>${replyMessage}</p>`;
-                document.getElementById('feedbacks').appendChild(replyDiv);
-                feedbackDiv.querySelector('.reply-box textarea').value = '';
-                feedbackDiv.querySelector('.reply-box').style.display = 'none';
-            }
-        });
-
-        return feedbackDiv;
-    }
-
-    function saveToLocalStorage() {
-        localStorage.setItem('feedbacks', JSON.stringify(feedbacks));
-    }
-
-    function loadFeedbacks() {
-        const stored = localStorage.getItem('feedbacks');
-        return stored ? JSON.parse(stored) : [];
-    }
-
-    function renderFeedbacks() {
-        const feedbacksDiv = document.getElementById('feedbacks');
-        feedbacksDiv.innerHTML = '<h2>FEEDBACKS OF OTHER USERS</h2>';
-        feedbacks.forEach((msg, index) => {
-            const feedbackEl = createFeedbackElement(msg, index);
-            feedbacksDiv.appendChild(feedbackEl);
-        });
-    }
-
-    let feedbacks = loadFeedbacks();
-
-    document.getElementById('feedbackForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const message = document.getElementById('message').value.trim();
-        if (message) {
-            const newMessage = { message: message, likes: 0, dislikes: 0 };
-            feedbacks.push(newMessage);
-            saveToLocalStorage();
-            renderFeedbacks();
+            feedbacksDiv.appendChild(feedbackDiv);
             document.getElementById('message').value = '';
-        }
-    });
 
-    window.onload = renderFeedbacks;
-</script>
+            let likeCount = 0;
+            let dislikeCount = 0;
 
+            feedbackDiv.querySelector('.like-btn').addEventListener('click', function() {
+                likeCount++;
+                feedbackDiv.querySelector('.like-btn').textContent = `👍 ${likeCount}`;
+            });
+
+            feedbackDiv.querySelector('.dislike-btn').addEventListener('click', function() {
+                dislikeCount++;
+                feedbackDiv.querySelector('.dislike-btn').textContent = `👎 ${dislikeCount}`;
+            });
+
+            feedbackDiv.querySelector('.reply-btn').addEventListener('click', function() {
+                const replyBox = feedbackDiv.querySelector('.reply-box');
+                replyBox.style.display = replyBox.style.display === 'none' ? 'block' : 'none';
+            });
+
+            feedbackDiv.querySelector('.submit-reply').addEventListener('click', function() {
+                const replyMessage = feedbackDiv.querySelector('.reply-box textarea').value;
+                if (replyMessage.trim() !== '') {
+                    const replyDiv = document.createElement('div');
+                    replyDiv.className = 'feedback';
+                    replyDiv.innerHTML = `<p>${replyMessage}</p>`;
+                    feedbacksDiv.appendChild(replyDiv);
+                    feedbackDiv.querySelector('.reply-box textarea').value = '';
+                    feedbackDiv.querySelector('.reply-box').style.display = 'none';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
-
