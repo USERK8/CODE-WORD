@@ -11,14 +11,38 @@
       min-height: 100vh;
       font-family: Arial, sans-serif;
       background: linear-gradient(-45deg,
-        #ff0000, #ff5500, #ffaa00, #ffff00,
-        #aaff00, #55ff00, #00ff00, #00ffaa,
-        #00ffff, #00aaff, #0055ff, #0000ff,
-        #5500ff, #aa00ff, #ff00ff, #ff00aa,
-        #ff0066, #ff0000
+        /* Reds */
+        #330000, #660000, #8B0000, #B22222, #DC143C, #FF0000, #FF6347, #FF7F7F,
+        /* Oranges */
+        #FF4500, #FF8C00, #FFA500, #FFD700,
+        /* Yellows */
+        #FFFF00, #FFFACD, #FAFAD2,
+        /* Greens */
+        #006400, #013220, #228B22, #32CD32, #00FF00, #7FFF00, #ADFF2F,
+        /* Cyans */
+        #00FFFF, #00CED1, #20B2AA, #40E0D0,
+        /* Blues */
+        #00008B, #0000CD, #0000FF, #1E90FF, #4169E1, #6495ED, #87CEFA,
+        /* Purples */
+        #4B0082, #6A0DAD, #800080, #8A2BE2, #9400D3, #9932CC, #BA55D3,
+        /* Pinks */
+        #C71585, #DB7093, #FF1493, #FF69B4, #FFB6C1,
+        /* Browns */
+        #3B2F2F, #4B3621, #5C4033, #8B4513, #A0522D, #A52A2A, #D2691E,
+        /* Greys */
+        #111111, #222222, #444444, #666666, #888888, #AAAAAA, #CCCCCC,
+        /* Blacks / Charcoal */
+        #000000, #1C1C1C, #2F2F2F, #363636,
+        /* White/Peach */
+        #FFF5EE, #FFE4B5, #FFDAB9,
+        /* Neon Shades */
+        #FF00FF, #FF10F0, #FF69B4, #FF1493, #FF5EF1, #00FFEF, #39FF14, #BFFF00,
+        #FF3131, #FF6EC7, #FCFF33, #00FF00, #00FFFF, #1B03A3, #9400D3, #FFFFF0,
+        /* Ending loop */
+        #330000
       );
-      background-size: 400% 400%;
-      animation: gradientBG 40s ease infinite;
+      background-size: 800% 800%;
+      animation: gradientBG 60s ease infinite;
       color: white;
       text-align: center;
       overflow-y: auto;
@@ -143,19 +167,12 @@
   <p>I'LL TRY TO REPLY AS QUICKLY AS I CAN...</p>
   <p>Send us your feedback at <strong>polisohankumarreddy@gmail.com</strong></p>
 
-  <form id="feedbackForm" class="feedback-form">
-    <textarea id="message" placeholder="Write your feedback here..."></textarea><br>
-    <input type="submit" value="Submit Feedback">
-  </form>
-
-  <div id="feedbacks" class="feedbacks"></div>
-
   <div class="credits">
     <p>Credits: SOHAN</p>
   </div>
 
   <script>
-    document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+    document.getElementById('feedbackForm')?.addEventListener('submit', function(event) {
       event.preventDefault();
       const message = document.getElementById('message').value;
       const feedbacksDiv = document.getElementById('feedbacks');
@@ -168,8 +185,8 @@
         <button class="like-btn">👍 0</button>
         <button class="dislike-btn">👎 0</button>
         <div class="reply-box">
-          <textarea placeholder="Reply..."></textarea>
-          <button class="submit-reply">Reply</button>
+            <textarea placeholder="Reply..."></textarea>
+            <button class="submit-reply">Reply</button>
         </div>
         <button class="reply-btn">Reply</button>
       `;
@@ -182,12 +199,12 @@
 
       feedbackDiv.querySelector('.like-btn').addEventListener('click', function () {
         likeCount++;
-        feedbackDiv.querySelector('.like-btn').textContent = `👍 ${likeCount}`;
+        this.textContent = `👍 ${likeCount}`;
       });
 
       feedbackDiv.querySelector('.dislike-btn').addEventListener('click', function () {
         dislikeCount++;
-        feedbackDiv.querySelector('.dislike-btn').textContent = `👎 ${dislikeCount}`;
+        this.textContent = `👎 ${dislikeCount}`;
       });
 
       feedbackDiv.querySelector('.reply-btn').addEventListener('click', function () {
