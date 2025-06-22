@@ -116,17 +116,18 @@
     let width = canvas.width;
     let height = canvas.height;
 
-    // Generate Circuit Paths
+    // 💡 Circuit Paths (full screen coverage)
     const paths = [];
     const gridSize = 80;
     const segmentLength = 60;
+    const numPaths = Math.floor((width * height) / 5000); // Adjust path density
 
     function createCircuitPaths() {
       paths.length = 0;
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < numPaths; i++) {
         let x = Math.floor(Math.random() * (width / gridSize)) * gridSize;
         let y = Math.floor(Math.random() * (height / gridSize)) * gridSize;
-        let segments = Math.floor(Math.random() * 6) + 3;
+        let segments = Math.floor(Math.random() * 10) + 5;
         let path = [{ x, y }];
 
         for (let j = 0; j < segments; j++) {
@@ -145,55 +146,66 @@
 
     createCircuitPaths();
 
-    // Mouse Trail
+    // 🔴 Mouse Trail (with fading over 2s)
     let mouseTrail = [];
-    const maxTrail = 60;
+
     document.addEventListener("mousemove", (e) => {
-      mouseTrail.push({ x: e.clientX, y: e.clientY });
-      if (mouseTrail.length > maxTrail) mouseTrail.shift();
+      mouseTrail.push({
+        x: e.clientX,
+        y: e.clientY,
+        time: Date.now()
+      });
     });
 
     function drawMouseTrail() {
-      if (mouseTrail.length < 2) return;
+      let now = Date.now();
+      ctx.lineWidth = 6;
       ctx.beginPath();
-      ctx.lineWidth = 5;
-      ctx.strokeStyle = "rgba(255, 0, 0, 0.3)";
-      ctx.moveTo(mouseTrail[0].x, mouseTrail[0].y);
-      for (let i = 1; i < mouseTrail.length; i++) {
-        ctx.lineTo(mouseTrail[i].x, mouseTrail[i].y);
+      for (let i = 0; i < mouseTrail.length - 1; i++) {
+        const a = mouseTrail[i];
+        const b = mouseTrail[i + 1];
+        let alpha = 1 - (now - a.time) / 2000; // Fade over 2s
+        if (alpha <= 0) continue;
+        ctx.strokeStyle = `rgba(255, 0, 0, ${alpha * 0.4})`;
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
       }
-      ctx.stroke();
+      // Remove old trail points
+      mouseTrail = mouseTrail.filter(pt => now - pt.time < 2000);
     }
 
+    // ✅ Draw circuit paths
     function drawCircuitPaths() {
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 3;
       paths.forEach((circuit) => {
         const { path, progress } = circuit;
         for (let i = 0; i < path.length - 1; i++) {
           const start = path[i];
           const end = path[i + 1];
 
-          // Draw base circuit
-          ctx.strokeStyle = "rgba(0, 255, 100, 0.1)";
+          // Base circuit line
+          ctx.strokeStyle = "rgba(0, 255, 100, 0.15)";
           ctx.beginPath();
           ctx.moveTo(start.x, start.y);
           ctx.lineTo(end.x, end.y);
           ctx.stroke();
 
-          // Animate energy moving
+          // Active flowing part
           if (progress > i && progress < i + 1) {
             let t = progress - i;
             let glowX = start.x + (end.x - start.x) * t;
             let glowY = start.y + (end.y - start.y) * t;
+            ctx.strokeStyle = "rgba(0, 255, 100, 0.9)";
             ctx.beginPath();
-            ctx.strokeStyle = "rgba(0, 255, 100, 0.8)";
             ctx.moveTo(start.x, start.y);
             ctx.lineTo(glowX, glowY);
             ctx.stroke();
           }
         }
 
-        circuit.progress += 0.03;
+        circuit.progress += 0.05;
         if (circuit.progress >= path.length - 1) {
           circuit.progress = 0;
         }
@@ -201,7 +213,7 @@
     }
 
     function animate() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.2)";
+      ctx.fillStyle = "rgba(0, 0, 0, 0.25)";
       ctx.fillRect(0, 0, width, height);
 
       drawCircuitPaths();
@@ -220,4 +232,3 @@
   </script>
 </body>
 </html>
-
