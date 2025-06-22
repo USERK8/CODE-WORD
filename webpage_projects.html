@@ -62,10 +62,20 @@
       gap: 30px;
     }
 
-    h1 {
+    #titleBox {
+      padding: 20px 50px;
+      border: 2px solid #00ff99;
+      box-shadow: 0 0 15px #00ff99;
+      border-radius: 10px;
+      background: rgba(0, 0, 0, 0.7);
+      position: relative;
+      z-index: 5;
+    }
+
+    #titleBox h1 {
       color: #00ff99;
-      text-shadow: 0 0 10px #00ff99;
       font-size: 50px;
+      text-shadow: 0 0 10px #00ff99;
     }
 
     .btns a {
@@ -100,7 +110,9 @@
   </div>
 
   <div class="center-content">
-    <h1>Projects</h1>
+    <div id="titleBox">
+      <h1>Projects</h1>
+    </div>
     <div class="btns">
       <a href="cpp.html">C++</a>
       <a href="python.html">Python</a>
@@ -116,11 +128,11 @@
     let width = canvas.width;
     let height = canvas.height;
 
-    // 💡 Circuit Paths (full screen coverage)
+    // Circuit Paths
     const paths = [];
     const gridSize = 80;
     const segmentLength = 60;
-    const numPaths = Math.floor((width * height) / 5000); // Adjust path density
+    const numPaths = Math.floor((width * height) / 5000);
 
     function createCircuitPaths() {
       paths.length = 0;
@@ -146,7 +158,7 @@
 
     createCircuitPaths();
 
-    // 🔴 Mouse Trail (with fading over 2s)
+    // Red Mouse Trail with 2s fade
     let mouseTrail = [];
 
     document.addEventListener("mousemove", (e) => {
@@ -160,11 +172,10 @@
     function drawMouseTrail() {
       let now = Date.now();
       ctx.lineWidth = 6;
-      ctx.beginPath();
       for (let i = 0; i < mouseTrail.length - 1; i++) {
         const a = mouseTrail[i];
         const b = mouseTrail[i + 1];
-        let alpha = 1 - (now - a.time) / 2000; // Fade over 2s
+        let alpha = 1 - (now - a.time) / 2000;
         if (alpha <= 0) continue;
         ctx.strokeStyle = `rgba(255, 0, 0, ${alpha * 0.4})`;
         ctx.beginPath();
@@ -172,36 +183,43 @@
         ctx.lineTo(b.x, b.y);
         ctx.stroke();
       }
-      // Remove old trail points
       mouseTrail = mouseTrail.filter(pt => now - pt.time < 2000);
     }
 
-    // ✅ Draw circuit paths
+    // Circuit Drawing
     function drawCircuitPaths() {
-      ctx.lineWidth = 3;
+      const box = document.getElementById("titleBox").getBoundingClientRect();
+      const padding = 20;
+
       paths.forEach((circuit) => {
         const { path, progress } = circuit;
+
         for (let i = 0; i < path.length - 1; i++) {
           const start = path[i];
           const end = path[i + 1];
 
-          // Base circuit line
-          ctx.strokeStyle = "rgba(0, 255, 100, 0.15)";
-          ctx.beginPath();
-          ctx.moveTo(start.x, start.y);
-          ctx.lineTo(end.x, end.y);
-          ctx.stroke();
+          const outsideBox = 
+            (start.x < box.left - padding || start.x > box.right + padding || start.y < box.top - padding || start.y > box.bottom + padding) &&
+            (end.x < box.left - padding || end.x > box.right + padding || end.y < box.top - padding || end.y > box.bottom + padding);
 
-          // Active flowing part
-          if (progress > i && progress < i + 1) {
-            let t = progress - i;
-            let glowX = start.x + (end.x - start.x) * t;
-            let glowY = start.y + (end.y - start.y) * t;
-            ctx.strokeStyle = "rgba(0, 255, 100, 0.9)";
+          if (outsideBox) {
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = "rgba(0, 255, 100, 0.15)";
             ctx.beginPath();
             ctx.moveTo(start.x, start.y);
-            ctx.lineTo(glowX, glowY);
+            ctx.lineTo(end.x, end.y);
             ctx.stroke();
+
+            if (progress > i && progress < i + 1) {
+              let t = progress - i;
+              let glowX = start.x + (end.x - start.x) * t;
+              let glowY = start.y + (end.y - start.y) * t;
+              ctx.strokeStyle = "rgba(0, 255, 100, 0.9)";
+              ctx.beginPath();
+              ctx.moveTo(start.x, start.y);
+              ctx.lineTo(glowX, glowY);
+              ctx.stroke();
+            }
           }
         }
 
