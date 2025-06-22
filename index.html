@@ -1,132 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CODE WORD</title>
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CODE WORD</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
 
-        .video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
+    body {
+      background: linear-gradient(-45deg, #1a1a2e, #2c003e, #0f2027, #3a0ca3, #200122);
+      background-size: 400% 400%;
+      animation: gradientBG 20s ease infinite;
+    }
 
-        #video-bg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-        }
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      25% { background-position: 50% 50%; }
+      50% { background-position: 100% 50%; }
+      75% { background-position: 50% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-        .content {
-            padding: 20px;
-            color: white;
-            position: relative;
-            z-index: 1;
-        }
+    .content {
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+    }
 
-        h1, h2, p {
-            text-align: center;
-        }
+    h1, h2, p {
+      text-align: center;
+    }
 
-        h1 {
-            font-size: 50px;
-        }
+    h1 {
+      font-size: 60px;
+      letter-spacing: 2px;
+    }
 
-        h2 {
-            font-size: 30px;
-        }
+    h2 {
+      font-size: 30px;
+      color: #0ff;
+    }
 
-        p {
-            font-size: 20px;
-            line-height: 30px;
-            margin-bottom: 50px;
-            margin-top: 50px;
-        }
-    </style>
+    p {
+      font-size: 20px;
+      line-height: 30px;
+      margin: 50px auto;
+      max-width: 800px;
+    }
+
+    nav {
+      text-align: center;
+      font-size: 18px;
+      margin-bottom: 30px;
+    }
+
+    nav a {
+      padding: 0 20px;
+      color: cyan;
+      text-decoration: none;
+    }
+
+    hr {
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    img {
+      width: 60%;
+      margin: 50px auto 30px auto;
+      display: block;
+      border-radius: 10px;
+    }
+
+    /* Scroll to top button */
+    #scrollBtn {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      z-index: 99;
+      font-size: 18px;
+      border: none;
+      outline: none;
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+      padding: 10px 15px;
+      border-radius: 5px;
+    }
+
+    #scrollBtn:hover {
+      background-color: #555;
+    }
+  </style>
 </head>
 <body>
-    <div class="video-container">
-        <video src="vid1.mp4" autoplay muted loop id="video-bg"></video>
-    </div>
-    
-    <div class="content">
-        <img src="img2.png" style="width: 60%; margin: 50px auto 30px auto; display: block;">
-        <h1>CODE WORD</h1>
-        <h2>Welcome to the CODE WORD</h2>
-        <hr>
-        <div style="text-align: center;">
-            <a style="padding-right: 20px;"href="index.html">HOME</a>
-            <a style="padding-right: 20px;"href="webpage_projects.html">PROJECTS</a>
-            <a style="padding-right: 20px;"href="about_us.html">ABOUT US</a>
-           
-        </div>   
-        <hr>
-        <p>Hello there! <br>This is a webpage that I have built for coders... </p>
-        <hr>
-        <h1>Don't Know How to "Code" ???</h1>
-        <img src="img1.jpeg" style="width: 60%; margin: 50px auto 30px auto; display: block;">
-        <p>No need to worry because we are going to help you how to make a wonderful journey of coding for free, which will be as easy as listening to a video... So let's get into our project.</p>
-        <hr>
-            </div>
 
-    <!-- Scroll to Top Button -->
-<button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
+  <div class="content">
+    <img src="img2.png" alt="Code Word Logo" />
+    <h1>🚀 CODE WORD</h1>
+    <h2>Where Coding Meets Creativity</h2>
+    <hr>
 
-<script>
-// Scroll to top function
-function scrollToTop() {
-    window.scrollTo({top: 0, behavior: 'smooth'});
-}
+    <nav>
+      <a href="index.html">HOME</a>
+      <a href="webpage_projects.html">PROJECTS</a>
+      <a href="about_us.html">ABOUT US</a>
+    </nav>
 
-// Show the button when the user scrolls down
-window.onscroll = function() {scrollFunction()};
+    <hr>
+    <p>
+      Hey there, future coder! 👋 <br><br>
+      Welcome to <strong>CODE WORD</strong> — your launchpad into the world of programming. Whether you're a total beginner or a curious explorer, we’ve got your back. Free resources, fun projects, and clear explanations — all at your fingertips.
+    </p>
+    <hr>
 
-function scrollFunction() {
-    let scrollBtn = document.getElementById("scrollBtn");
-    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-        scrollBtn.style.display = "block";
-    } else {
-        scrollBtn.style.display = "none";
+    <h1 style="margin-top: 70px;">🤔 Don’t Know How to "Code"?</h1>
+    <img src="img1.jpeg" alt="Coding Help Image" />
+    <p>
+      No worries at all! We're here to turn your confusion into confidence. CODE WORD makes learning to code feel like watching a YouTube video — simple, visual, and effective. <br><br>
+      So gear up, hit that <a href="webpage_projects.html" style="color: cyan;">Projects</a> tab, and start your epic journey. Let’s build something awesome together!
+    </p>
+    <hr>
+  </div>
+
+  <!-- Scroll to Top Button -->
+  <button onclick="scrollToTop()" id="scrollBtn" title="Go to top">↑</button>
+
+  <script>
+    // Scroll to top function
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-}
-</script>
 
-<style>
-/* Scroll to top button styling */
-#scrollBtn {
-    display: none; /* Hidden by default */
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 99;
-    font-size: 18px;
-    border: none;
-    outline: none;
-    background-color: #333;
-    color: white;
-    cursor: pointer;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-
-#scrollBtn:hover {
-    background-color: #555;
-}
-</style>
+    // Show the button when the user scrolls down
+    window.onscroll = function () {
+      let scrollBtn = document.getElementById("scrollBtn");
+      if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+        scrollBtn.style.display = "block";
+      } else {
+        scrollBtn.style.display = "none";
+      }
+    }
+  </script>
 
 </body>
 </html>
