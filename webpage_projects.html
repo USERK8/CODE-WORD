@@ -5,13 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Projects | USERK8</title>
   <style>
-    body, html {
+    * {
       margin: 0;
       padding: 0;
-      overflow: hidden;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      width: 100%;
       height: 100%;
       background: black;
-      color: white;
+      overflow: hidden;
       font-family: 'Consolas', monospace;
     }
 
@@ -22,65 +26,85 @@
       z-index: 0;
     }
 
-    .content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      gap: 20px;
+    .home-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 2;
     }
 
-    h1 {
-      color: #00ff99;
-      text-shadow: 0 0 10px #00ff99;
-    }
-
-    .btns {
-      display: flex;
-      gap: 20px;
-    }
-
-    a.button {
+    .home-button a {
       padding: 12px 24px;
       background: black;
       border: 2px solid #00ff99;
       color: #00ff99;
       text-decoration: none;
-      font-size: 18px;
+      font-size: 20px;
       border-radius: 6px;
       transition: 0.2s;
       box-shadow: 0 0 10px #00ff99;
     }
 
-    a.button:hover {
+    .home-button a:hover {
       background: #00ff99;
       color: black;
       box-shadow: 0 0 20px #00ff99;
     }
 
-    .cursor-trail {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      background: red;
-      border-radius: 50%;
-      pointer-events: none;
-      box-shadow: 0 0 10px red;
+    .center-content {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    h1 {
+      color: #00ff99;
+      text-shadow: 0 0 10px #00ff99;
+      font-size: 50px;
+    }
+
+    .btns a {
+      padding: 18px 36px;
+      background: black;
+      border: 3px solid #00ff99;
+      color: #00ff99;
+      font-size: 22px;
+      text-decoration: none;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #00ff99;
+      transition: 0.3s ease-in-out;
+    }
+
+    .btns a:hover {
+      background: #00ff99;
+      color: black;
+      box-shadow: 0 0 25px #00ff99;
+    }
+
+    .btns {
+      display: flex;
+      gap: 30px;
     }
   </style>
 </head>
 <body>
   <canvas id="bgCanvas"></canvas>
 
-  <div class="content">
+  <div class="home-button">
+    <a href="index.html">Home</a>
+  </div>
+
+  <div class="center-content">
     <h1>Projects</h1>
     <div class="btns">
-      <a href="index.html" class="button">Home</a>
-      <a href="cpp.html" class="button">C++</a>
-      <a href="python.html" class="button">Python</a>
+      <a href="cpp.html">C++</a>
+      <a href="python.html">Python</a>
     </div>
   </div>
 
@@ -91,90 +115,83 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    let lines = [];
-    let maxLines = 200;
+    let width = canvas.width;
+    let height = canvas.height;
 
-    class Line {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.len = Math.random() * 100 + 50;
-        this.angle = Math.random() * Math.PI * 2;
-        this.speed = Math.random() * 0.5 + 0.2;
-        this.alpha = 1;
-      }
-
-      update() {
-        this.x += Math.cos(this.angle) * this.speed;
-        this.y += Math.sin(this.angle) * this.speed;
-        this.alpha -= 0.005;
-        if (this.alpha <= 0) this.reset();
+    // Green Circuit Lines
+    class CircuitLine {
+      constructor(y, speed, angle) {
+        this.y = y;
+        this.speed = speed;
+        this.angle = angle;
+        this.offset = Math.random() * 1000;
       }
 
       draw() {
-        ctx.strokeStyle = `rgba(0, 255, 100, ${this.alpha})`;
+        ctx.strokeStyle = 'rgba(0, 255, 100, 0.6)';
+        ctx.lineWidth = 1.5;
         ctx.beginPath();
-        ctx.moveTo(this.x, this.y);
-        ctx.lineTo(
-          this.x - Math.cos(this.angle) * this.len,
-          this.y - Math.sin(this.angle) * this.len
-        );
+        for (let x = 0; x < width; x += 20) {
+          const y = this.y + Math.sin((x + this.offset) * this.angle) * 10;
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
         ctx.stroke();
-      }
-
-      reset() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
-        this.len = Math.random() * 100 + 50;
-        this.angle = Math.random() * Math.PI * 2;
-        this.speed = Math.random() * 0.5 + 0.2;
-        this.alpha = 1;
+        this.offset += this.speed;
       }
     }
 
-    for (let i = 0; i < maxLines; i++) {
-      lines.push(new Line());
+    const circuitLines = [];
+    for (let i = 0; i < height; i += 30) {
+      const angle = Math.random() * 0.02 + 0.005;
+      const speed = Math.random() * 0.5 + 0.2;
+      circuitLines.push(new CircuitLine(i, speed, angle));
+    }
+
+    // Red Cursor Line
+    let mouseTrail = [];
+    const maxTrail = 60;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseTrail.push({ x: e.clientX, y: e.clientY });
+      if (mouseTrail.length > maxTrail) mouseTrail.shift();
+    });
+
+    function drawMouseTrail() {
+      if (mouseTrail.length < 2) return;
+
+      ctx.beginPath();
+      ctx.lineWidth = 4;
+      ctx.strokeStyle = 'rgba(255, 0, 0, 0.4)';
+      ctx.moveTo(mouseTrail[0].x, mouseTrail[0].y);
+      for (let i = 1; i < mouseTrail.length; i++) {
+        ctx.lineTo(mouseTrail[i].x, mouseTrail[i].y);
+      }
+      ctx.stroke();
     }
 
     function animate() {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillRect(0, 0, width, height);
 
-      lines.forEach(line => {
-        line.update();
-        line.draw();
-      });
+      circuitLines.forEach(line => line.draw());
+      drawMouseTrail();
 
       requestAnimationFrame(animate);
     }
 
     animate();
 
-    // Resize canvas
+    // Resize
     window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    });
-
-    // Red cursor trail
-    const trail = [];
-    const maxTrail = 50;
-
-    const createTrailDot = (x, y) => {
-      const dot = document.createElement('div');
-      dot.className = 'cursor-trail';
-      dot.style.left = `${x}px`;
-      dot.style.top = `${y}px`;
-      document.body.appendChild(dot);
-      trail.push(dot);
-      if (trail.length > maxTrail) {
-        const old = trail.shift();
-        document.body.removeChild(old);
+      canvas.width = width = window.innerWidth;
+      canvas.height = height = window.innerHeight;
+      circuitLines.length = 0;
+      for (let i = 0; i < height; i += 30) {
+        const angle = Math.random() * 0.02 + 0.005;
+        const speed = Math.random() * 0.5 + 0.2;
+        circuitLines.push(new CircuitLine(i, speed, angle));
       }
-    };
-
-    document.addEventListener('mousemove', e => {
-      createTrailDot(e.clientX, e.clientY);
     });
   </script>
 </body>
